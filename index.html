@@ -6,18 +6,18 @@
 <title>Tree Distance Sandbox — Cophenetic, Euclidean & Ultrametric Distances</title>
 <style>
   :root {
-    --ink: #07080f; --ink-2: #0b0f1c; --panel: #0e1425; --line: #1d2a46;
-    --line-2: #2b3d6b; --text: #dce6ff; --text-dim: #8295c0;
-    --cyan: #00e5ff; --amber: #ffb300; --violet: #b388ff; --green: #00ffa3;
-    --mono: "Cascadia Code","Consolas","SFMono-Regular",monospace;
-    --ui: "Bahnschrift","Segoe UI","Arial Narrow",sans-serif;
+    --ink: #ffffff; --ink-2: #f8f9fa; --panel: #f8f9fa; --line: #dee2e6;
+    --line-2: #ced4da; --text: #212529; --text-dim: #6c757d;
+    --cyan: #1a73e8; --amber: #b06000; --violet: #6f42c1; --green: #188038;
+    --mono: "JetBrains Mono",Consolas,monospace;
+    --ui: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     --radius: 8px; --radius-sm: 5px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:radial-gradient(1100px 560px at 72% -12%,rgba(0,229,255,0.05),transparent 60%),radial-gradient(800px 480px at 8% 112%,rgba(179,136,255,0.04),transparent 55%),var(--ink);color:var(--text);font-family:var(--ui);min-height:100vh}
+  body{background:radial-gradient(1100px 560px at 72% -12%,rgba(26,115,232,0.05),transparent 60%),radial-gradient(800px 480px at 8% 112%,rgba(111,66,193,0.04),transparent 55%),var(--ink);color:var(--text);font-family:var(--ui);min-height:100vh}
   .wrap{max-width:1280px;margin:0 auto;padding:20px 24px 40px}
   .header{padding:18px 0 10px;border-bottom:1px solid var(--line);margin-bottom:18px}
-  .header h1{font-family:var(--mono);font-size:1.35rem;font-weight:600;color:var(--amber);letter-spacing:-0.01em}
+  .header h1{font-family:Georgia,"Times New Roman",serif;font-size:1.35rem;font-weight:600;color:var(--amber);letter-spacing:-0.01em}
   .header .tagline{font-size:0.85rem;color:var(--text-dim);margin-top:4px}
   .grid{display:grid;grid-template-columns:260px 1fr 280px;gap:18px;align-items:start}
   @media(max-width:1100px){.grid{grid-template-columns:1fr}}
@@ -25,8 +25,8 @@
   .panel h2{font-family:var(--mono);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-dim);margin-bottom:10px;border-bottom:1px solid var(--line);padding-bottom:8px}
   .seg{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
   .seg button{background:var(--ink-2);border:1px solid var(--line);color:var(--text-dim);font-family:var(--mono);font-size:0.78rem;padding:6px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.15s;min-width:36px;text-align:center}
-  .seg button:hover{color:var(--text);border-color:var(--line-2);background:rgba(255,179,0,0.06)}
-  .seg button.active{background:rgba(255,179,0,0.12);color:var(--amber);border-color:var(--amber);box-shadow:0 0 8px rgba(255,179,0,0.15)}
+  .seg button:hover{color:var(--text);border-color:var(--line-2);background:rgba(176,96,0,0.06)}
+  .seg button.active{background:rgba(176,96,0,0.12);color:var(--amber);border-color:var(--amber);box-shadow:0 0 8px rgba(176,96,0,0.15)}
   .seg button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
   .readout-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid rgba(29,42,70,0.5)}
   .readout-row:last-child{border-bottom:none}
@@ -43,15 +43,15 @@
   .action-bar{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
   .action-bar button{background:var(--ink-2);border:1px solid var(--line);color:var(--text-dim);font-family:var(--ui);font-size:0.73rem;padding:5px 10px;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.15s}
   .action-bar button:hover{color:var(--text);border-color:var(--line-2)}
-  .action-bar button.primary{background:rgba(255,179,0,0.1);color:var(--amber);border-color:var(--amber)}
+  .action-bar button.primary{background:rgba(176,96,0,0.1);color:var(--amber);border-color:var(--amber)}
   .tour-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
   .tour-overlay.active{opacity:1;pointer-events:all}
-  .tour-card{background:var(--panel);border:1px solid var(--amber);border-radius:var(--radius);padding:24px 28px;max-width:420px;text-align:center;box-shadow:0 0 40px rgba(255,179,0,0.15)}
+  .tour-card{background:var(--panel);border:1px solid var(--amber);border-radius:var(--radius);padding:24px 28px;max-width:420px;text-align:center;box-shadow:0 0 40px rgba(176,96,0,0.15)}
   .tour-card h3{font-family:var(--mono);color:var(--amber);font-size:1rem;margin-bottom:8px}
   .tour-card p{color:var(--text-dim);font-size:0.85rem;line-height:1.5;margin-bottom:16px}
   .tour-card .step-dots{display:flex;justify-content:center;gap:6px;margin-bottom:14px}
   .tour-card .step-dot{width:6px;height:6px;border-radius:50%;background:var(--line-2);transition:all 0.2s}
-  .tour-card .step-dot.active{background:var(--amber);box-shadow:0 0 6px rgba(255,179,0,0.4)}
+  .tour-card .step-dot.active{background:var(--amber);box-shadow:0 0 6px rgba(176,96,0,0.4)}
   .tour-card button{background:var(--amber);border:none;color:var(--ink);font-family:var(--ui);font-size:0.82rem;padding:8px 24px;border-radius:var(--radius-sm);cursor:pointer;font-weight:600}
   .tour-card .skip{background:none;color:var(--text-dim);border:none;margin-left:10px;font-size:0.75rem;cursor:pointer}
   .toast{position:fixed;bottom:24px;right:24px;background:var(--panel);border:1px solid var(--green);color:var(--green);padding:10px 18px;border-radius:var(--radius-sm);font-family:var(--mono);font-size:0.73rem;z-index:200;opacity:0;transform:translateY(20px);transition:all 0.3s;pointer-events:none}
@@ -61,8 +61,8 @@
   .seed-row input:focus{outline:none;border-color:var(--amber)}
   .seed-row label{font-size:0.7rem;color:var(--text-dim)}
   .leaf-badge{display:inline-block;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:0.7rem;margin:0 2px}
-  .leaf-A{background:rgba(0,229,255,0.15);color:var(--cyan)}
-  .leaf-B{background:rgba(255,179,0,0.15);color:var(--amber)}
+  .leaf-A{background:rgba(26,115,232,0.15);color:var(--cyan)}
+  .leaf-B{background:rgba(176,96,0,0.15);color:var(--amber)}
   .footer{margin-top:20px;padding-top:12px;border-top:1px solid var(--line);font-size:0.65rem;color:var(--text-dim);text-align:center}
   .footer a{color:var(--amber);text-decoration:none}
 </style>
@@ -244,21 +244,21 @@ function renderTree() {
   S.tree.forEach(n => {
     const isA = n === S.selA, isB = n === S.selB;
     ctx.beginPath(); ctx.arc(pos[n.index].x, pos[n.index].y, isA||isB ? 6 : n.leaf?3.5:3, 0, Math.PI*2);
-    if (isA) ctx.fillStyle = "rgba(0,229,255,0.9)";
-    else if (isB) ctx.fillStyle = "rgba(255,179,0,0.9)";
-    else ctx.fillStyle = n.leaf ? "rgba(179,136,255,0.5)" : "rgba(130,149,192,0.4)";
+    if (isA) ctx.fillStyle = "rgba(26,115,232,0.9)";
+    else if (isB) ctx.fillStyle = "rgba(176,96,0,0.9)";
+    else ctx.fillStyle = n.leaf ? "rgba(111,66,193,0.5)" : "rgba(130,149,192,0.4)";
     ctx.fill();
   });
 
   // Highlight LCA
   if (S.selA && S.selB) {
     const l = lca(S.selA, S.selB);
-    if (l) { ctx.beginPath(); ctx.arc(pos[l.index].x, pos[l.index].y, 8, 0, Math.PI*2); ctx.strokeStyle = "rgba(0,255,163,0.6)"; ctx.lineWidth = 2; ctx.stroke(); }
+    if (l) { ctx.beginPath(); ctx.arc(pos[l.index].x, pos[l.index].y, 8, 0, Math.PI*2); ctx.strokeStyle = "rgba(24,128,56,0.6)"; ctx.lineWidth = 2; ctx.stroke(); }
   }
 
   // Labels
-  if (S.selA) { ctx.fillStyle = "rgba(0,229,255,0.9)"; ctx.font = "11px Cascadia Code, monospace"; ctx.textAlign = "center"; ctx.fillText("A", pos[S.selA.index].x, pos[S.selA.index].y-8); }
-  if (S.selB) { ctx.fillStyle = "rgba(255,179,0,0.9)"; ctx.font = "11px Cascadia Code, monospace"; ctx.fillText("B", pos[S.selB.index].x, pos[S.selB.index].y-8); }
+  if (S.selA) { ctx.fillStyle = "rgba(26,115,232,0.9)"; ctx.font = "11px Cascadia Code, monospace"; ctx.textAlign = "center"; ctx.fillText("A", pos[S.selA.index].x, pos[S.selA.index].y-8); }
+  if (S.selB) { ctx.fillStyle = "rgba(176,96,0,0.9)"; ctx.font = "11px Cascadia Code, monospace"; ctx.fillText("B", pos[S.selB.index].x, pos[S.selB.index].y-8); }
 }
 
 function renderChart() {
@@ -269,9 +269,9 @@ function renderChart() {
   const padL = 60, padR = 20, padT = 20, padB = 20;
   const barW = 40, gap = 20, barH = h-padT-padB-40;
   const bars = [
-    { label: "Cophenetic", val: S.copheneticDist, max: S.d, color: "rgba(0,229,255,0.7)", x: padL },
-    { label: "Euclidean", val: S.euclideanDist, max: 3, color: "rgba(179,136,255,0.7)", x: padL+barW+gap },
-    { label: "Ultrametric", val: S.ultrametricDist, max: 1, color: "rgba(255,179,0,0.7)", x: padL+2*(barW+gap) },
+    { label: "Cophenetic", val: S.copheneticDist, max: S.d, color: "rgba(26,115,232,0.7)", x: padL },
+    { label: "Euclidean", val: S.euclideanDist, max: 3, color: "rgba(111,66,193,0.7)", x: padL+barW+gap },
+    { label: "Ultrametric", val: S.ultrametricDist, max: 1, color: "rgba(176,96,0,0.7)", x: padL+2*(barW+gap) },
   ];
 
   bars.forEach(b => {
